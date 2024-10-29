@@ -1,8 +1,7 @@
 import express from "express";
 import path from "path";
-import pool from "../dataBase.js";
-import { publicPath } from "../config.js";
-import { saveUserHandler } from "../handlers/userHandler.js";
+import { publicPath } from "../config/config.js";
+import { newUser, showAllUsers, showUserById } from "../controllers/userController.js";
 
 export const router = express.Router()
 
@@ -24,6 +23,17 @@ router.post('/newUser', async (req: express.Request, res: express.Response) => {
     //console.log(res.statusCode);//muestra el código de estado de la respuesta, en este caso 201
     //console.log(pool);//muestra el pool de conexión a la base de datos
     //res.send('<h1>Usuario creado</h1> <p>Nombre: ' + req.body.name + '</p> <p>Apellido: ' + req.body.surname + '</p> <p>Nombre de usuario: ' + req.body.username + '</p> <p>Email: ' + req.body.email + '</p>');//configura la respuesta del servidor, en este caso un mensaje de confirmación
-    const result = saveUserHandler(req.body);
+    const result = await newUser(req.body);
     res.send(result)
+});
+
+router.get('/users', async (req: express.Request, res:express.Response) => {
+    const allUsers = await showAllUsers();
+    res.send(allUsers)
+})
+
+router.get('/users/:id', async (req: express.Request, res: express.Response) => {
+    const userId = req.params.id; // Obtiene el ID del usuario de los parámetros de la ruta
+    const user = await showUserById(userId); // Llama a una función para obtener el usuario por ID
+    res.send(user); // Envía el usuario encontrado como respuesta
 });
