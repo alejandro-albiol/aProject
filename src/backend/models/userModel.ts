@@ -15,9 +15,15 @@ export async function getUsers():Promise<any>{
     return result.rows;
 }
 
-export async function getUserById(id:string):Promise<any>{
+export async function getUserById(id:number):Promise<any>{
 
     const queryString = `SELECT * FROM "user" WHERE "id" = ${id}`;//Constante para la consulta a la base de datos
     const result = await pool.query(queryString);//Realiza la consulta a la base de datos, se espera a que se complete la operación antes de continuar
-    return result.rows;
+    return result;
+}
+
+export async function deleteUserById(id:number):Promise<any> {
+    const queryString = `DELETE FROM  "user" WHERE "id" = ${id}`;
+    const result = await pool.query(queryString);
+    return result.rows;    
 }

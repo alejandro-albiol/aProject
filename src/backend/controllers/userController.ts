@@ -1,4 +1,4 @@
-import { getUsers, SaveUser, getUserById } from "../models/userModel.js";
+import { getUsers, SaveUser, getUserById, deleteUserById } from "../models/userModel.js";
 import { User } from "../types/user.js";
 
 export async function newUser(data:User):Promise<string>{
@@ -27,7 +27,7 @@ export async function showAllUsers():Promise<string>{
     
 }
 
-export async function showUserById(id: string): Promise<string> {
+export async function showUser(id: number): Promise<string> {
     try {
         const result = await getUserById(id);
         if (result.rows.length === 0) {
@@ -37,4 +37,9 @@ export async function showUserById(id: string): Promise<string> {
     } catch (error: any) {
         return error;
     }
+}
+
+export async function deleteUser(id:number):Promise<any>{
+    const result = deleteUserById(id);
+    return result;
 }
