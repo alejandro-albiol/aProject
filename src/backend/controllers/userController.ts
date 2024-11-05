@@ -1,7 +1,7 @@
-import { promises } from "dns";
 import { getUsers, SaveUser, getUserById } from "../models/userModel.js";
+import { User } from "../types/user.js";
 
-export async function newUser(data:any):Promise<string>{
+export async function newUser(data:User):Promise<string>{
     try {
         const result = await SaveUser(data);
         return result;
